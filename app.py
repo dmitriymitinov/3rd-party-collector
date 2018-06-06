@@ -1,6 +1,7 @@
 from pyquery import PyQuery
 from urllib import request
 import re
+import
 
 # PUTTY
 # response = request.urlopen('https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html')
