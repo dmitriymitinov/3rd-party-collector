@@ -1,8 +1,9 @@
 from pyquery import PyQuery
 from urllib import request
 import logging
+import re
 
-logging.basicConfig(filename='log.txt',level=logging.DEBUG)
+logging.basicConfig(filename='log.txt', level=logging.DEBUG)
 
 class Product:
     def __init__(self, name, url, version_tag, releseDate_tag):
@@ -19,15 +20,39 @@ class Product:
         except Exception:
             logging.warning('Can not connect to url')
 
-    def grabInfo(self):
+    def grabInfo(self, pattern=None):
         pq = PyQuery(self.connect_to_url())
         try:
-            version_str = pq(self.version)
-            date_str = pq(self.releaseDate)
+            if pattern == None:
+                version_str = pq(self.version)
+                date_str = pq(self.releaseDate)
+                return {'Version': version_str.html(), 'Date': date_str.html()}
+            else:
+                version_str = pq(self.version).html()
+                date_str = pq(self.releaseDate).html()
+                clear_version = re.search(pattern, version_str).group(0)
+                clear_date = re.search(pattern, date_str).group(0)
+                return {'Version': clear_version, 'Date': clear_date}
         except Exception:
-            logging.warning('Can\'t find specified selector')
+            logging.warning('Can\'t find specified selector(s)')
 
-    def getDownloadLink(self, selector):
+    def getDownloadLink(self, selector, selector2=None):
         pq = PyQuery(self.connect_to_url())
+        try:
+            if selector2 == None:
+                download_link = pq(selector).html()
+                return download_link.attr('href')
+            else:
+                download_link = pq(selector)
+                download_link2 = pq(selector2)
+                return [download_link.attr('href'), download_link2.attr('href')]
+        except Exception:
+            logging.warning('Can no access required lonks')
 
-        download_link = pq(selector)
+    def getMozillaLink(self, selector):
+        pq = PyQuery(self.connect_to_url())
+        try:
+            download_linkEnGB86 = pq(selector).html().attr('href')
+            # need to add other languages links after testing
+        except Exception:
+            logging.warning('Can no access required lonks')
