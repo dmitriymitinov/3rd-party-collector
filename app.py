@@ -1,6 +1,6 @@
 from pyquery import PyQuery
 from urllib import request
-import re
+import json
 
 # PUTTY
 # response = request.urlopen('https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html')
@@ -21,11 +21,15 @@ import re
 # print(date_version.html())
 
 #BackupandSync
-response = request.urlopen('http://www.filehippo.com/download_google_drive/tech/')
-html = response.read()
-pq = PyQuery(html)
-tag_version2 = pq('title')
-link = pq('#program-header > div.program-header-download-link-container > a.program-header-download-link.button-link.active.short.download-button')
+# response = request.urlopen('http://www.filehippo.com/download_google_drive/tech/')
+# html = response.read()
+# pq = PyQuery(html)
+# tag_version2 = pq('title')
+# link = pq('#program-header > div.program-header-download-link-container > a.program-header-download-link.button-link.active.short.download-button')
+#
+# print(tag_version2.html())
+# print(link.html('a').attr('href'))
 
-print(tag_version2.html())
-print(link.html('a').attr('href'))
+# with open('Existing_Versions.json') as file:
+#     data = json.load(file)
+# print(data)

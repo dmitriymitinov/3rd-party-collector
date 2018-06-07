@@ -1,6 +1,7 @@
 from pyquery import PyQuery
 from urllib import request
 import logging
+import json
 import re
 
 logging.basicConfig(filename='log.txt', level=logging.DEBUG)
@@ -47,7 +48,7 @@ class Product:
                 download_link2 = pq(selector2)
                 return [download_link.attr('href'), download_link2.attr('href')]
         except Exception:
-            logging.warning('Can no access required lonks')
+            logging.warning('Can no access required links')
 
     def getMozillaLink(self, selector):
         pq = PyQuery(self.connect_to_url())
@@ -55,4 +56,25 @@ class Product:
             download_linkEnGB86 = pq(selector).html().attr('href')
             # need to add other languages links after testing
         except Exception:
-            logging.warning('Can no access required lonks')
+            logging.warning('Can no access required links')
+
+    def isVersionValid(self, pattern=None):
+        product_name = self.name
+        existing_version = None
+        needed_valuese = self.grabInfo(pattern=pattern)
+        needed_version = needed_valuese.get('Version')
+        try:
+            with open('Existing_Versions.json') as file:
+                json_data = json.load(file)
+            for name, cur_version in json_data.items():
+                if product_name == self.name:
+                    existing_version = cur_version
+                    break
+                else:
+                    continue
+            if existing_version != needed_version:
+                return True
+            else:
+                return False
+        except Exception:
+            logging.warning('Cant fine name of the product')
