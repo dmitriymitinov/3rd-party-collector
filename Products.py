@@ -14,6 +14,7 @@ class Product:
         self.version = version_tag
         self.releaseDate = releseDate_tag
         self.DATE_VERSION_REGEXP = '(\d{1,4}(/|.|-)\d{1,4}(/|.|-)\d{1,4})|(\d{1,4}.\d{1,4})'
+        self.VERSION_REGEXP_BIG = '(\d{1,4}(/|.|-)\d{1,4}(/|.|-)\d{1,4})(\d{1,4}.\d{1,4})'
 
     def connect_to_url(self):
         try:
