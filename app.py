@@ -30,6 +30,6 @@ import json
 # print(tag_version2.html())
 # print(link.html('a').attr('href'))
 
-# with open('Existing_Versions.json') as file:
-#     data = json.load(file)
-# print(data)
+with open('Existing_Versions.json') as file:
+    data = json.load(file)
+print(data.get("Firefox"))
